@@ -1,0 +1,89 @@
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:30:43[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:32:19[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:33:22[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:33:31[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:34:10[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 17:35:50[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:22:58[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:23:28[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:27:12[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:27:42[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:28:00[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:28:31[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:30:48[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:31:25[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:31:36[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:32:06[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:35:15[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:35:47[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 18:38:29[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:39:01[39m
+[31merror [MongoDB connection failed:]: 2025-06-02 18:39:48[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 21:14:42[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 21:14:42[39m
+[34minfo [START: Register Account Service]: 2025-06-02 21:43:38[39m
+[34minfo [END: Register Account Service]: 2025-06-02 21:43:40[39m
+[34minfo [START: Login Service]: 2025-06-02 21:45:34[39m
+[34minfo [END: Login Service]: 2025-06-02 21:45:35[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:48:17[39m
+[31merror [email is not defined]: 2025-06-02 21:48:17[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:48:53[39m
+[31merror [email is not defined]: 2025-06-02 21:48:53[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:49:03[39m
+[31merror [email is not defined]: 2025-06-02 21:49:03[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:49:30[39m
+[31merror [email is not defined]: 2025-06-02 21:49:30[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:50:10[39m
+[31merror [email is not defined]: 2025-06-02 21:50:10[39m
+[34minfo [MongoDB connected successfully]: 2025-06-02 21:53:41[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-02 21:53:41[39m
+[34minfo [START: Reset Password Service]: 2025-06-02 21:53:49[39m
+[34minfo [END: Reset Password Service]: 2025-06-02 21:53:50[39m
+[34minfo [START: Login Service]: 2025-06-02 21:54:05[39m
+[34minfo [END: Login Service]: 2025-06-02 21:54:05[39m
+[34minfo [START: Login Service]: 2025-06-03 07:07:40[39m
+[34minfo [END: Login Service]: 2025-06-03 07:07:42[39m
+[34minfo [START: Logout Service]: 2025-06-03 07:08:48[39m
+[34minfo [END: Logout Service]: 2025-06-03 07:08:49[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 10:08:13[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 10:08:13[39m
+[34minfo [START: Login Service]: 2025-06-03 10:08:56[39m
+[34minfo [END: Login Service]: 2025-06-03 10:08:57[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 10:11:42[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 10:11:42[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 10:44:45[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 10:44:45[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 10:55:41[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 10:55:41[39m
+[34minfo [START: Login Service]: 2025-06-03 10:55:54[39m
+[34minfo [END: Login Service]: 2025-06-03 10:55:55[39m
+[34minfo [START: Logout Service]: 2025-06-03 11:03:55[39m
+[34minfo [START: Logout Service]: 2025-06-03 11:04:06[39m
+[34minfo [END: Logout Service]: 2025-06-03 11:04:06[39m
+[34minfo [START: Login Service]: 2025-06-03 11:04:15[39m
+[34minfo [END: Login Service]: 2025-06-03 11:04:15[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:12:49[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:12:49[39m
+[34minfo [START: Login Service]: 2025-06-03 11:13:18[39m
+[34minfo [END: Login Service]: 2025-06-03 11:13:18[39m
+[34minfo [START: Login Service]: 2025-06-03 11:15:46[39m
+[34minfo [END: Login Service]: 2025-06-03 11:15:47[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:22:30[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:22:30[39m
+[34minfo [START: Get All Users Service]: 2025-06-03 11:23:31[39m
+[34minfo [START: Get All Users Service]: 2025-06-03 11:23:43[39m
+[34minfo [START: Get All Users Service]: 2025-06-03 11:23:55[39m
+[34minfo [START: Login Service]: 2025-06-03 11:24:06[39m
+[34minfo [END: Login Service]: 2025-06-03 11:24:06[39m
+[34minfo [START: Login Service]: 2025-06-03 11:25:08[39m
+[34minfo [END: Login Service]: 2025-06-03 11:25:08[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:26:33[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:26:33[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:28:27[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:28:27[39m
+[34minfo [START: Get All Users Service]: 2025-06-03 11:28:32[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:30:44[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:30:44[39m
+[34minfo [START: Get All Users Service]: 2025-06-03 11:30:52[39m
+[34minfo [MongoDB connected successfully]: 2025-06-03 11:33:52[39m
+[34minfo [MedScribe Backend Server running on http://localhost:4000]: 2025-06-03 11:33:53[39m
