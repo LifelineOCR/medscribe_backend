@@ -1,107 +1,88 @@
 // src/services/llamaService.js
-import axios from 'axios';
-import fs from 'fs';
-import FormData from 'form-data';
-import MedicalDocument from '../models/MedicalDocument.js'; 
+// const axios = require('axios'); // No longer needed for hardcoded response
+// const fs = require('fs'); // Still needed if you were to read file for other reasons, but not for Llama call
+// const FormData = require('form-data'); // No longer needed
+
+import MedicalDocument from '../models/MedicalDocument.js';
 import Transcription from '../models/Transcription.js';
-import logger from '../utils/logger.js'; // Assuming you have a logger utility
 import dotenv from 'dotenv';
 dotenv.config();
 
 
-const LLAMA_API_URL = process.env.LLAMA_API_URL;
+// const LLAMA_API_URL = process.env.LLAMA_API_URL; // Not used with hardcoded data
 
-/**
- * Sends a document to the Llama API for transcription.
- * @param {string} filePath - Absolute path to the file to be transcribed.
- * @param {object} documentRecord - The MedicalDocument record from MongoDB.
- */
-export const processDocumentWithLlama = async (filePath, documentRecord) => {
-  logger.info(`[LlamaService] Processing document: ${documentRecord.originalFileName}, Path: ${filePath}`);
+const logger = { // Replace with your actual logger
+  info: (message) => console.log(`LlamaService INFO: ${new Date().toISOString()} - ${message}`),
+  error: (message) => console.error(`LlamaService ERROR: ${new Date().toISOString()} - ${message}`),
+};
 
-  if (!LLAMA_API_URL) {
-    logger.error("[LlamaService] Error: LLAMA_API_URL is not defined in .env");
-    await MedicalDocument.findByIdAndUpdate(documentRecord._id, { processingStatus: 'FAILED' });
-    // Optionally create a Transcription record with an error
-    await Transcription.create({
-        document: documentRecord._id,
-        user: documentRecord.user,
-        errorMessage: "Llama API URL not configured on server.",
-        completedAt: new Date()
-    });
-    return;
+// --- HARDCODED AI RESPONSE DATA (Updated with your provided JSON) ---
+const HARDCODED_LLAMA_RESPONSE_DATA = {
+  ocr_results: { // This part is mostly for reference or if you use it elsewhere
+    filename: "prescription_Gyne_490_jpg.rf.0d670aa054b0c95d70dd5bd8af461f51.jpg",
+    raw_doctags: "Name: Age: Date: Address Diagnosis: R For 7 days...", // Truncated for brevity
+    ocr_extracted_text: "Name: Age: Date: Address Diagnosis: R For 7 days Dextromethorphan for 7 days For 3 days Montelukrast IbuProfen 01275285338 : 1 1 1 ... <loc_391",
+    markdown_content: "",
+    ocr_processing_time_seconds: 50.93
+  },
+  medical_analysis: { // This is the main part we'll store in Transcription.structuredData
+    ocr_extracted_text: "Name: Age: Date: Address Diagnosis: R For 7 days Dextromethorphan for 7 days For 3 days Montelukrast IbuProfen 01275285338 : 1 1 1 ... <loc_391",
+    preprocessed_text: "Name: Age: Date: Address Diagnosis: Prescription: Duration: 7 days Dextromethorphan for 7 days Duration: 3 days Montelukrast IbuProfen 01275285338 : 1 1 1 ...",
+    llama_analysis: {
+      "SUMMARY": "The patient presents with symptoms indicative of an upper respiratory infection. Key medications prescribed include Dextromethorphan for cough suppression over 7 days and Montelukast for 3 days, likely to address inflammation or allergic components. Ibuprofen is also noted, presumably for pain or fever. No specific patient demographic data or detailed diagnosis beyond 'R' (common shorthand for prescription) is available from the OCR text. Clarity of the original document is suboptimal, with dosage details missing for the prescribed medications.",
+      "PATIENT INFORMATION": "- No patient information is available in the provided text. (Extracted from OCR)",
+      "DIAGNOSIS": "- The primary diagnosis is not identifiable without more context or additional information. (Extracted from OCR)",
+      "MEDICATIONS PRESCRIBED": "1. *Dextromethorphan:*\n- Generic/Brand: Dextromethorphan\n- Dosage/Strength: Not specified (assuming 7 days)\n- Route: Oral\n- Frequency: Daily\n- Duration: 7 days\n2. **Montelukast:**\n- Generic/Brand: Montelukast\n- Dosage/Strength: Not specified (assuming 3 days)\n- Route: Oral\n- Frequency: Daily\n- Duration: 3 days\n*Also Noted: Ibuprofen (details not specified)*",
+      "CLINICAL NOTES": "- Drug interactions to monitor: None mentioned\n- Patient counseling points: None mentioned\n- Follow-up recommendations: None mentioned\n**CLARITY ASSESSMENT:**\n- Legibility issue: Unclear due to formatting and lack of standard notation\n- Missing information: Required dosage and duration for both medications are missing."
+    }
   }
+};
+// --- END HARDCODED DATA ---
 
-  const formData = new FormData();
-  formData.append('document', fs.createReadStream(filePath), documentRecord.originalFileName);
-//   formData.append('userId', documentRecord.user.toString());
-//   formData.append('documentId', documentRecord._id.toString());
+const processDocumentWithLlama = async (filePath, documentRecord) => {
+  logger.info(`Processing document (HARDCODED with user data & summary): ${documentRecord.originalFileName}`);
+  let transcriptionEntry;
 
   try {
-    logger.info(`[LlamaService] Sending request to Llama API: ${LLAMA_API_URL}`);
-    const startTime = Date.now();
-
-    // Update document status to 'PROCESSING'
+    transcriptionEntry = await Transcription.findOneAndUpdate(
+      { document: documentRecord._id },
+      {
+        user: documentRecord.user,
+        status: 'PROCESSING',
+        $unset: { errorMessage: "" }
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
     await MedicalDocument.findByIdAndUpdate(documentRecord._id, { processingStatus: 'PROCESSING' });
 
-    const response = await axios.post(LLAMA_API_URL, formData, {
-      headers: {
-        ...formData.getHeaders(), // Important for multipart/form-data
-        // Add any other headers your Llama API requires, e.g., an API key
-        // 'X-Llama-API-Key': 'YOUR_LLAMA_API_KEY'
-      },
-      timeout: 300000, // 5 minutes timeout, adjust as needed
+    const simulatedLlamaResponseTimeMs = 200; // Quick since it's hardcoded
+    logger.info(`Using hardcoded Llama response for ${documentRecord.originalFileName}`);
+
+    await Transcription.findByIdAndUpdate(transcriptionEntry._id, {
+      transcribedText: HARDCODED_LLAMA_RESPONSE_DATA.medical_analysis.ocr_extracted_text,
+      // ***** Store only the medical_analysis part in structuredData *****
+      // This makes frontend access easier: transcription.structuredData.llama_analysis
+      structuredData: HARDCODED_LLAMA_RESPONSE_DATA.medical_analysis,
+      processingTimeMs: simulatedLlamaResponseTimeMs,
+      status: 'COMPLETED',
+      errorMessage: null,
+      completedAt: new Date(),
     });
 
-    const endTime = Date.now();
-    const processingTimeMs = endTime - startTime;
-
-    logger.info('[LlamaService] Received response from Llama API:', response.data);
-
-    // Assuming Llama API returns data like:
-    // { transcribedText: "...", structuredData: {...}, confidenceScore: 0.95 }
-    const { transcribedText, structuredData, confidenceScore } = response.data;
-
-    // Create Transcription record
-    await Transcription.create({
-      document: documentRecord._id,
-      user: documentRecord.user,
-      transcribedText: transcribedText,
-      structuredData: structuredData,
-      confidenceScore: confidenceScore,
-      processingTimeMs: processingTimeMs,
-      completedAt: new Date()
-    });
-
-    // Update document status to 'COMPLETED'
     await MedicalDocument.findByIdAndUpdate(documentRecord._id, { processingStatus: 'COMPLETED' });
-    logger.info(`[LlamaService] Successfully processed and saved transcription for ${documentRecord.originalFileName}`);
+    logger.info(`Successfully 'processed' (hardcoded) and saved transcription for ${documentRecord.originalFileName}`);
 
   } catch (error) {
-    console.error(`[LlamaService] Error processing document ${documentRecord.originalFileName} with Llama:`, error.message);
-    if (error.response) {
-      console.error('[LlamaService] Llama API Response Error Data:', error.response.data);
-      console.error('[LlamaService] Llama API Response Status:', error.response.status);
-    } else if (error.request) {
-      console.error('[LlamaService] Llama API No response received:', error.request);
+    // ... (existing error handling)
+    const errorMessage = error.message;
+    logger.error(`Error during hardcoded processing for ${documentRecord.originalFileName}: ${errorMessage}`);
+    if (transcriptionEntry) {
+      await Transcription.findByIdAndUpdate(transcriptionEntry._id, { status: 'FAILED', errorMessage: errorMessage, completedAt: new Date() });
+    } else {
+      await Transcription.create({ document: documentRecord._id, user: documentRecord.user, status: 'FAILED', errorMessage: `Failed to initiate hardcoded processing: ${errorMessage}`, completedAt: new Date() });
     }
-
-    // Update document status to 'FAILED'
     await MedicalDocument.findByIdAndUpdate(documentRecord._id, { processingStatus: 'FAILED' });
-    // Create Transcription record with error message
-    await Transcription.create({
-        document: documentRecord._id,
-        user: documentRecord.user,
-        errorMessage: error.response ? JSON.stringify(error.response.data) : error.message,
-        completedAt: new Date()
-    });
-  } finally {
-    // Optional: Clean up the uploaded file from the server's 'uploads' folder
-    // if you don't need it after sending to Llama (e.g., if Llama stores it or you use cloud storage)
-    // fs.unlink(filePath, (err) => {
-    //   if (err) console.error(`[LlamaService] Error deleting temp file ${filePath}:`, err);
-    //   else logger.info(`[LlamaService] Deleted temp file ${filePath}`);
-    // });
   }
 };
 
+export default processDocumentWithLlama;

@@ -6,6 +6,8 @@ import {
   getRecentUserDocuments,
   getDocumentTranscription,
   getDocumentById,
+  getFileByFilename,
+  deleteAllUserDocuments
 } from '../controllers/document.controller.js'; 
 const documentRouter = express.Router();
 
@@ -28,5 +30,8 @@ documentRouter.get('/:id', isLoggedIn, getDocumentById);
 // GET /api/documents/:id/transcription
 documentRouter.get('/:id/transcription', isLoggedIn, getDocumentTranscription);
 
-
+documentRouter.get('/file/:storageFileName', isLoggedIn, getFileByFilename);
 export default documentRouter;
+
+// DELETE all documents 
+documentRouter.delete('/', isLoggedIn, deleteAllUserDocuments);
