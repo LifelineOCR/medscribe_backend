@@ -7,11 +7,17 @@ import logger from './utils/logger.js';
 import errorHandler from './middleware/errorHandler.js';
 import authRouter from './routes/auth.routes.js';
 import documentRouter from './routes/document.routes.js';
-import patientRouter from './routes/patient.routes.js'; 
+import patientRouter from './routes/patient.routes.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerOptions from './swaggerOptions.js'; 
 
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const swaggerSpec = swaggerJsDoc(swaggerOptions);
+
+
 // connect to database
 await connectDb();
 
@@ -45,6 +51,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/documents', documentRouter);
 app.use('/api/patients', patientRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
